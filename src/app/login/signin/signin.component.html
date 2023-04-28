@@ -1,0 +1,36 @@
+<div class="bg-[url('https://img.freepik.com/free-vector/isometric-phone-with-chat-concept_23-2148284552.jpg?w=2000')] bg-no-repeat h-screen object-center  text-white object-cover pt-24">
+    <div class="text-9xl mb-24 flex"><p class="mx-auto">Welcome To Chat App</p></div>
+    <div class="w-96 border border-black mx-auto font-serif p-5">
+        <div class="text-4xl text-center">Login</div>
+        <form [formGroup]="login">
+            <div class="mt-3">
+                <label for="">UserName : </label>
+                <input class="text-black w-full border border-black rounded" type="text" placeholder="Please Enter Username" formControlName="username">
+    
+                <ng-container *ngIf="username?.invalid&&(username?.dirty || username?.touched)">
+                <small class="text-red-500" *ngIf="username?.errors?.['required']">
+                * This Field is required
+                </small>
+                
+                <small class="text-red-500" *ngIf="username?.errors?.['minlength']">
+                * must be at least 3 characters long
+                </small>
+                </ng-container>
+            </div>
+            <div class="mt-3">
+                <label for="">Password : </label>
+                <input class="text-black w-full border border-black rounded" type="password" placeholder="Please Enter Username" formControlName="password">
+    
+                <ng-container *ngIf="password?.invalid&&(password?.dirty || password?.touched)">
+                <small class="text-red-500" *ngIf="password?.errors?.['required']">
+                * This Field is required
+                </small>
+                </ng-container>
+            </div>
+            <div class="mt-3 d-flex">
+                <button class="bg-slate-600 p-2 rounded-md cursor-pointer hover:bg-slate-700 disabled:bg-slate-400" [disabled]="login.invalid" (click)="allow()">Sign In</button>
+                <button (click)="redirect()" class="ms-3 bg-slate-600 p-2 rounded-md cursor-pointer hover:bg-slate-700">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</div>

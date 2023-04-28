@@ -1,0 +1,45 @@
+<div class="bg-white flex pl-4 border border-slate-300 py-2  w-full">
+    <img class="w-10 rounded-full"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdcIEbKLDtIzf6KOjQmgQJa968fq7D3qJliQ&usqp=CAU"
+        alt="">
+        <div>
+            <p class="text-2xl ml-4">{{receiver}}</p>
+        </div>
+</div>
+<div id="divimage">
+    <div class="overflow-y-scroll w-full p-3 h-screen">
+
+        <ng-container *ngFor="let item of chats">
+
+            <ng-container *ngIf="item==chats[0]">
+                <div class="text-center mb-2"><span class="p-2 bg-blue-200 hover:bg-blue-300 rounded-md">{{item.day}} {{item.month}} {{item.year}}</span></div>
+            </ng-container>
+
+            <div class="flex w-50">
+                <div id="message text-right" class="p-2 m-1 px-4"
+                    [ngClass]="item.receiver==receiver?'ml-auto rounded-xl bg-green-200 ':' mr-auto rounded-xl bg-white'">
+                    {{item.message}}
+                    <p><small class="float-right">{{item.hour}}:{{item.min}}</small></p>
+                </div>
+            </div>
+            <!-- [ngClass]="step == 'step1' ? 'my_class1' : 'my_class2'" -->
+        </ng-container>
+
+    </div>
+
+    <form class="flex bg-gray-100 p-2" [formGroup]="message">
+
+        <button><img class="w-10 mr-8 rounded-full" src="https://uxwing.com/wp-content/themes/uxwing/download/emoji-emoticon/emoji-smiley-black-icon.svg" alt=""></button>
+
+        <button class="rounded-full"><img class="w-10 object-cover object center mr-8" src="https://uxwing.com/wp-content/themes/uxwing/download/tools-equipment-construction/paperclip-icon.svg" alt=""></button>
+
+        <input class="w-full border rounded-full border-black" type="text" formControlName="text">
+
+        <button class="rounded-full ml-4 bg-gray-100" (click)="sendtext()">
+            <img class="w-10 rounded-full"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXIJS9oE3kG_yJQH0Js466nu6Y5idmByxalw&usqp=CAU"
+                alt="">
+        </button>
+
+    </form>
+</div>
