@@ -10,10 +10,13 @@ import { AllService, Chat } from 'src/app/service/all.service';
 })
 export class ChattingComponent {
 
-  receiver!: string
+  receiver: string=this.ser.otherUsers[0].username
 
   chats :Array<Chat> = []
 
+  bothchat:Array<Chat> = []
+
+  loginuser=this.ser.Activeuser
 
   //form
   message: FormGroup
@@ -33,15 +36,26 @@ export class ChattingComponent {
 
       this.router.params.subscribe((params: any) => {
 
+        this.loginuser=this.ser.Activeuser
+
         this.receiver=params.name
+        console.log('params', params);
+        
+        console.log('Chat Filter 0',this.chats);
 
-        this.chats.filter(x=>((x.receiver == params.name) || (x.sender == params.name)))
-        console.log('params',params);
-        console.log('Chat Section');
-        console.log('Receiver',this.receiver);
-        console.log('Chats',this.chats);
+        this.chats = this.ser.chatdata.filter(x => ( (x.receiver == this.loginuser.username)||(x.sender == this.loginuser.username)))
+        // this.chats.filter(x=>((x.receiver == params.name)
+        // //  || (x.sender == params.name)
+        //  ))
+        console.log('Chat Filter 1',this.chats);
 
-        this.chats = this.ser.chatdata.filter(x => ((x.receiver == this.receiver) || (x.sender == this.receiver)))
+        this.chats = this.chats.filter(x=>(x.receiver==params.name)||(x.sender==params.name))
+        // console.log('params',params);
+        // console.log('Chat Section');
+        // console.log('Receiver',this.receiver);
+
+
+        console.log('Chat Filter 2',this.chats);
         
       })
 
@@ -60,20 +74,23 @@ export class ChattingComponent {
       this.ser.sendmsg(message)
       // console.log(message);
     }
-    this.receiver = this.ser.receiver
+    // this.receiver = this.ser.receiver
 
-    this.chats = this.ser.chatdata.filter(x => ((x.receiver == this.receiver) || (x.sender == this.receiver)))
+    this.chats = this.ser.chatdata.filter(x => ( (x.receiver == this.loginuser.username)||(x.sender == this.loginuser.username)))
+    // this.chats.filter(x=>((x.receiver == params.name)
+    // //  || (x.sender == params.name)
+    //  ))
+    console.log('Chat Filter 1',this.chats);
+
+    this.chats = this.chats.filter(x=>(x.receiver==this.receiver)||(x.sender==this.receiver))
     
-    console.log('message',message);
+    // console.log('message',message);
     
-    console.log('Receiver',this.receiver)
+    // console.log('Receiver',this.receiver)
 
     console.log('Chat Updated',this.chats);
     
 
   }
-
-
-
-
 }
+

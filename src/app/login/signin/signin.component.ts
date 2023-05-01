@@ -36,10 +36,11 @@ export class SigninComponent {
 
     
     if (user != null && pass != null) {
-      let first = this.ser.showallusers()
+      // let first = this.ser.showallusers()
       // this.ser.login(user,pass)
       if (this.ser.loginmethod(user, pass)) {
-        this.router.navigate([`/chat/name/${first[0].username}`])
+        // this.ser.receiver=first[1].username
+        this.router.navigate([`/chat/name/${this.ser.otherUsers[0].username}`])
       }
       else {
         //error

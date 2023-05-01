@@ -5,12 +5,15 @@
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS40wAeFtC0e_yGdAAIBCPw1WPYMZkFY_efuw&usqp=CAU"
                 alt="">
         </div>
+        <div class="my-auto ml-3">
+            Logged In as {{loggedinuser}}
+        </div>
         <button class="ml-auto bg-gray-300 rounded-xl hover:bg-slate-400 p-2 m-2" (click)="logout()">Logout
             ({{loggedinuser}})</button>
     </div>
     <div class="flex h-screen">
         <div class="overflow-y-scroll">
-            <div class="p-3 w-full border text-center">
+            <div class="p-3 w-full border-y text-center">
                 All OF Your Contacts Are Displayed here
             </div>
             <div class="text-center">
@@ -27,12 +30,19 @@
                             <div class="h-10">
                                 <p class="ml-3 text-left">{{item.username}}</p>
                                     <ng-container *ngFor="let item1 of minichat">
-                                        <ng-container *ngIf="((item1.receiver==item.username)||(item1.sender==item.username))">
+                                        <ng-container *ngIf="((item1.receiver==item.username))">
                                             <p class="ml-3 text-gray-300">
                                                 <small class="overflow-hidden">{{item1.message}}</small>
                                             </p>
                                         </ng-container>
                                     </ng-container>
+                            </div>
+                            <div class=" ml-auto">
+                                <ng-container *ngFor="let item2 of chatunseen">
+                                    <ng-container *ngIf="item.username==item2.receiver && item2.count > 0">
+                                        <span class="bg-green-200 rounded-full px-1 ">count {{item2.count}}</span>
+                                    </ng-container>
+                                </ng-container>
                             </div>
                         </button>
                     </div>

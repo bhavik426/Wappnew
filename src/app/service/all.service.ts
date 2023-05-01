@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -6,41 +7,59 @@ import { Injectable } from '@angular/core';
 export class AllService {
 
   Totalusers: Array<User> = [
-    { id: 0, username: 'bhavik', password: 'Bhavik111' },
-    { id: 1, username: 'jayprajapati', password: 'Jayprajapati111' },
-    { id: 2, username: 'pradumna', password: 'Pradumna111' }
+    { id: 0, username: 'alice123', password: 'Alice123' },
+    { id: 1, username: 'bob12345', password: 'Bob12345' }
   ]
+
+  otherUsers!: Array<User>
 
   Activeuser: User = {} as User
 
   id = 3
 
-  constructor() {
+  seen: Array<Seen>=[]
 
-    //all users except active one
-    // setInterval(() => {
-    //   this.chatusers = this.Activeuser
+  constructor(private router: ActivatedRoute) {
 
-    //   let x = this.chatusers.findIndex(b=>{
-    //    let y = this.Activeuser
-    //    b==y[0]
-    //   })
 
-    //   if(x!=-1)
-    //   {
-    //     this.chatusers.splice(x,1)
-    //   }
+    // unseen chat number
 
-    //   console.log(this.chatusers,'records')
+    this.router.params.subscribe(() => {
 
-    // }, 1000)
+     let x = this.Totalusers.filter(u => u != this.Activeuser)
+
+      for(let v of x)
+      {
+
+        let count = 0
+
+        let filter = this.chatdata.filter(y=>y.sender==v.username)
+
+        for (let i of filter) {
+          if (!i.seen && this.chatdata.length>0) {
+  
+            count++
+  
+          }
+          else {
+
+          }
+        }
+        // if()
+        // {
+          this.seen.push({receiver:v.username,count:count})
+        // }
+
+      }
+
+    })
 
   }
 
   //register user Function
   registeruser(user: string, pass: string) {
 
-    console.log(user, pass);
+    // console.log(user, pass);
 
     this.Totalusers.push({ id: this.id++, username: user, password: pass })
     alert("User Successfully registered");
@@ -54,7 +73,9 @@ export class AllService {
 
     let obj = this.Totalusers[result]
     if (result != -1) {
-      this.Activeuser=obj
+      this.Activeuser = obj
+      this.otherUsers=this.Totalusers.filter(u => u != this.Activeuser)
+      this.receiver=this.otherUsers[0].username
       // console.log(obj);
       return true
     }
@@ -69,17 +90,17 @@ export class AllService {
   //Logout function
   logoutmethod() {
 
-    this.Activeuser={} as User
+    this.Activeuser = {} as User
 
-    console.log('User Logged Out',this.Activeuser);
-    
+    // console.log('User Logged Out', this.Activeuser);
+
   }
 
 
   //Active user data
   activeuserdata() {
 
-    console.log('Active User',this.Activeuser);
+    // console.log('Active User', this.Activeuser);
 
     return this.Activeuser
 
@@ -98,23 +119,23 @@ export class AllService {
   //return all users except active one
   showallusers() {
 
-    console.log(this.Activeuser);
-    
-    return this.Totalusers.filter(u=>u!=this.Activeuser)
-    
+    // console.log(this.Activeuser);
+
+    return this.Totalusers.filter(u => u != this.Activeuser)
+
   }
 
 
   // chatlogic===============================================================================================================
 
 
-  chatdata: Array<Chat>=[]
+  chatdata: Array<Chat> = []
 
   receiver!: string
 
-  chatid=1
+  chatid = 1
 
-  month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   sendmsg(message: string) {
     let loginuser = this.Activeuser
@@ -131,29 +152,33 @@ export class AllService {
     if (loginuser != null && receiver != null && msg != null) {
 
       let obj: Chat = {
-        id:this.chatid++,
+        id: this.chatid++,
         sender: sender,
         receiver: receiver,
         message: msg,
         hour: hour,
         min: min,
-        date:date,
-        year:year,
-        month:month,
-        day:day
+        date: date,
+        year: year,
+        month: month,
+        day: day,
+        seen: false
       }
       
       this.chatdata.push(obj)
-      console.log('Chat Array',this.chatdata);
+      console.log('Chat Array', this.chatdata,obj);
     }
   }
 
   setreceiver(receiver: string) {
 
     this.receiver = receiver
-    console.log('Receiver Updated to',this.receiver);
-    
+    // console.log('Receiver Updated to', this.receiver);
+
   }
+
+
+
 
 
 }
@@ -171,10 +196,16 @@ export interface Chat {
   sender: string
   receiver: string
   message: string
-  hour?:number
-  min?:number
-  date?:Date
-  year?:number
-  month?:string
-  day?:number
+  hour?: number
+  min?: number
+  date?: Date
+  year?: number
+  month?: string
+  day?: number
+  seen?: boolean
+}
+
+export interface Seen {
+  receiver: string
+  count: number
 }

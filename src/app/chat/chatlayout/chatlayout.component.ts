@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AllService, Chat, User } from 'src/app/service/all.service';
+import { AllService, Chat, Seen, User } from 'src/app/service/all.service';
 
 @Component({
   selector: 'app-chatlayout',
@@ -14,6 +14,8 @@ export class ChatlayoutComponent {
   allusers=this.ser.showallusers()
 
   minichat:Array<Chat>=[]
+
+  chatunseen:Array<Seen>=this.ser.seen
 
   stopper=0
 
@@ -42,17 +44,17 @@ export class ChatlayoutComponent {
         
         if(this.ser.chatdata.length>0)
         {
-           v = this.ser.chatdata.filter(x=>((x.receiver==i.username)||(x.sender==i.username)))
+           v = this.ser.chatdata.filter(x=>( (x.receiver == this.loggedinuser)))
            
-           console.log('filtered chat',this.ser.chatdata.filter(x=>{(x.receiver==i.username)||(x.sender==i.username)}));
+          //  console.log('filtered chat',this.ser.chatdata.filter(x=>{(x.receiver==i.username)||(x.sender==i.username)}));
         }
 
         if(v.length>0)
         {
-          this.minichat.push(v[v.length-1])
+          this.minichat=v
         }
 
-
+        this.chatunseen=this.ser.seen
         
         
       }
